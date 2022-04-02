@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/Fonts/NunitoSans-Regular.ttf</file>
+    </qresource>
+</RCC>
