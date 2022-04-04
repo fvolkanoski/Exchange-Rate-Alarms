@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>res/Fonts/NunitoSans-Regular.ttf</file>
+        <file>res/trayicon.png</file>
     </qresource>
 </RCC>

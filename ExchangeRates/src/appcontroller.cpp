@@ -5,3 +5,8 @@ AppController::AppController(QObject *parent)
 {
 
 }
+
+void AppController::showMsg()
+{
+    emit showTrayMessage();
+}

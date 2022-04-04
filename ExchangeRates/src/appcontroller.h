@@ -9,8 +9,10 @@ class AppController : public QObject
 public:
     explicit AppController(QObject *parent = nullptr);
 
-signals:
+    Q_INVOKABLE void showMsg();
 
+signals:
+    void showTrayMessage();
 };
 
 #endif // APPCONTROLLER_H
