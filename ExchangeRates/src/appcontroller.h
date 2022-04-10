@@ -1,7 +1,8 @@
-#ifndef APPCONTROLLER_H
-#define APPCONTROLLER_H
+#pragma once
 
 #include <QObject>
+
+#include "httprequestworker.h"
 
 class AppController : public QObject
 {
@@ -12,7 +13,13 @@ public:
     Q_INVOKABLE void showMsg();
 
 signals:
-    void showTrayMessage();
-};
+    void showTrayMessage(QString title, QString msg);
 
-#endif // APPCONTROLLER_H
+private slots:
+    void handleResult(HttpRequestWorker *worker);
+
+private:
+    void parseCurrencyResponse(QByteArray apiResponse);
+
+    HttpRequestWorker *_worker;
+};

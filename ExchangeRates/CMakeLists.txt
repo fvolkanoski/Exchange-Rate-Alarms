@@ -26,6 +26,8 @@ qt_add_executable(appExchangeRates MACOSX_BUNDLE
     main.cpp
     src/appcontroller.h
     src/appcontroller.cpp
+    src/httprequestworker.h
+    src/httprequestworker.cpp
     res.qrc
     ${app_icon_macos}
 )

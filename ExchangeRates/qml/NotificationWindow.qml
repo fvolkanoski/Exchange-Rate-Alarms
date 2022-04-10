@@ -2,7 +2,7 @@ import QtQuick
 import Qt.labs.platform 1.1
 
 Window {
-    id: notificationWindow
+    id: mainWindow
     width: 500
     height: 500
     title: qsTr("Exchange Rate Notifications")
@@ -33,7 +33,7 @@ Window {
                 anchors.fill: parent
 
                 onClicked: {
-                    notificationWindow.close()
+                    mainWindow.hide()
                 }
             }
         }

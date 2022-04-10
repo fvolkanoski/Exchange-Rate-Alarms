@@ -22,5 +22,7 @@ int main(int argc, char *argv[])
 
     engine.load(url);
 
+    appController.showMsg();
+
     return app.exec();
 }
