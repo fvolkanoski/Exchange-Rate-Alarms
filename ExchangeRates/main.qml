@@ -47,6 +47,26 @@ Window {
         font.pixelSize: 35
     }
 
+    ListView {
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: 100
+        width: 150
+        height: parent.height - 150
+
+        model: currencyModel
+
+        delegate: Text {
+            required property string name
+            required property string value
+
+            text: name + ", " + value
+            font.family: "nunito"
+            font.pixelSize: 25
+            color: name == "MKD" ? "green" : "black"
+            font.bold: name == "MKD" ? true : false
+        }
+    }
+
     FontLoader
     {
         id: nunito;
