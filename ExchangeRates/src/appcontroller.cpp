@@ -10,12 +10,8 @@ AppController::AppController(QObject *parent)
 {
     connect(_worker, SIGNAL(on_execution_finished(HttpRequestWorker*)), this, SLOT(handleResult(HttpRequestWorker*)));
 
-    HttpRequestInput input("https://v6.exchangerate-api.com/v6/9efed49e0804bd71761a224e/latest/EUR", "GET");
+    HttpRequestInput input("https://v6.exchangerate-api.com/v6/9efed49e0804bd71761a224e/latest/" + m_mainCurrency, "GET");
     _worker->execute(&input);
-
-//    _currencyModel.addCurrency(Currency("Wolf", "Medium"));
-//    _currencyModel.addCurrency(Currency("Polar bear", "Large"));
-//    _currencyModel.addCurrency(Currency("Quoll", "Small"));
 }
 
 void AppController::showMsg()
@@ -33,6 +29,7 @@ void AppController::initializeQmlContext(QGuiApplication *app, QQmlApplicationEn
 
     _engine->rootContext()->setContextProperty("appController", this);
     _engine->rootContext()->setContextProperty("currencyModel", &_currencyModel);
+    _engine->rootContext()->setContextProperty("cbModel", &_cbModel);
 
     const QUrl url(u"qrc:/ExchangeRates/main.qml"_qs);
 
@@ -63,10 +60,10 @@ void AppController::parseCurrencyResponse(QByteArray apiResponse)
 
     for (apiObjIt = apiObj.begin(); apiObjIt != apiObj.end(); apiObjIt++)
     {
-        qDebug() << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
-        qDebug() << apiObjIt.key();
-        qDebug() << apiObjIt.value();
-        qDebug() << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
+        //qDebug() << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
+        //qDebug() << apiObjIt.key();
+        //qDebug() << apiObjIt.value();
+        //qDebug() << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
 
         if(apiObjIt.key() == "conversion_rates")
         {
@@ -75,13 +72,35 @@ void AppController::parseCurrencyResponse(QByteArray apiResponse)
 
             for (ratesObjIt = ratesObj.begin(); ratesObjIt != ratesObj.end(); ratesObjIt++)
             {
-                qDebug() << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
-                qDebug() << ratesObjIt.key();
-                qDebug() << ratesObjIt.value();
-                qDebug() << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
+                //qDebug() << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
+                //qDebug() << ratesObjIt.key();
+                //qDebug() << ratesObjIt.value();
+                //qDebug() << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
 
                 _currencyModel.addCurrency(Currency(ratesObjIt.key(), QString::number(ratesObjIt.value().toDouble())));
+                _cbModel.addCurrency(Currency(ratesObjIt.key(), QString::number(ratesObjIt.value().toDouble())));
             }
         }
     }
+}
+
+const QString &AppController::mainCurrency() const
+{
+    return m_mainCurrency;
+}
+
+void AppController::setMainCurrency(const QString &newMainCurrency)
+{
+    if (m_mainCurrency == newMainCurrency)
+        return;
+    m_mainCurrency = newMainCurrency;
+
+    HttpRequestInput input("https://v6.exchangerate-api.com/v6/9efed49e0804bd71761a224e/latest/" + m_mainCurrency, "GET");
+    _worker->execute(&input);
+
+    _currencyModel.clear();
+
+    qDebug() << "Changing stuff for..." << m_mainCurrency;
+
+    emit mainCurrencyChanged();
 }

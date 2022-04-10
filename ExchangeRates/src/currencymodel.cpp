@@ -46,6 +46,13 @@ QVariant CurrencyModel::data(const QModelIndex & index, int role) const
     return QVariant();
 }
 
+void CurrencyModel::clear()
+{
+    beginResetModel();
+    m_currencies.clear();
+    endResetModel();
+}
+
 QHash<int, QByteArray> CurrencyModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
