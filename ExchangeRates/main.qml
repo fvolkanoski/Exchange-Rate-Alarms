@@ -98,7 +98,7 @@ Window {
     ListView {
         anchors.horizontalCenter: parent.horizontalCenter
         y: 150
-        width: 150
+        width: 250
         height: parent.height - 200
 
         model: currencyModel
@@ -109,9 +109,10 @@ Window {
 
             text: name + " = " + value
             font.family: "nunito"
-            font.pixelSize: 25
+            font.pixelSize: name == "MKD" ? 35 : 25
             color: name == "MKD" ? "green" : "black"
             font.bold: name == "MKD" ? true : false
+            horizontalAlignment: Text.AlignHCenter
         }
     }
 

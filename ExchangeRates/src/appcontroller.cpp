@@ -40,7 +40,6 @@ void AppController::initializeQmlContext(QGuiApplication *app, QQmlApplicationEn
     }, Qt::QueuedConnection);
 
     engine->load(url);
-
 }
 
 void AppController::handleResult(HttpRequestWorker *worker)
